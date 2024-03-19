@@ -1,6 +1,7 @@
 #include "person.h"
 #include "date.h"
 #include <stdlib.h>
+#include <string.h>
 
 struct person_type {
         char *first_name;
@@ -9,6 +10,7 @@ struct person_type {
         Date birthday;
 };
 
+// Hello how is this?
 bool person_init(Person person,
                 char *first_name,
                 size_t first_name_length,
@@ -30,7 +32,7 @@ bool person_init(Person person,
         person->id = malloc(id_length * sizeof(*person->id));
         if (person->id == NULL)
                 return false;
-        person->birthday = malloc(sizeof(*person->birthday));
+        person->birthday = malloc(date_get_size(person->birthday));
         if (person->birthday == NULL)
                 return false;
 
@@ -43,7 +45,7 @@ bool person_init(Person person,
         memcpy(person->id, id, id_length-1);
         person->id[id_length-1] = '\0';
 
-        memcpy(person->birthday, birthday, sizeof(*birthday));
+        memcpy(person->birthday, birthday, sizeof(date_get_size(person->birthday)));
 
         return true;
 }
@@ -57,7 +59,15 @@ bool person_destroy(Person person) {
         return true;
 }
 
-bool person_get_first_name(char *first_name, size_t max_length, Person person);
+bool person_get_first_name(char *first_name, size_t max_length, Person person) {
+        int i = 0;
+        int j = 0;
+        while (i < max_length-1 && person->first_name[j] != '\0')
+                first_name[i++] = person->first_name[j++];
+        first_name[i] = '\0';
+        return true;
+}
+
 bool person_get_last_name(char *last_name, size_t max_length, Person person);
 bool person_get_id(char *id, size_t max_length, Person person);
 bool person_get_age(uint16_t *age, Person person);
