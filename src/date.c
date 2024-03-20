@@ -8,8 +8,8 @@
 // 3 for AD/BC+'\0'
 #define DATE_STRING_LENGTH (3 + 10 + 5 + 3) 
 
-static uint8_t days_in_month(uint8_t month, int16_t year):
-static bool is_leap_year(int16_t year):
+static uint8_t days_in_month(uint8_t month, int16_t year);
+static bool is_leap_year(int16_t year);
 
 struct date_type {
         uint8_t day;
@@ -56,7 +56,7 @@ static uint8_t days_in_month(uint8_t month, int16_t year) {
                 month == 6 ||
                 month == 9 ||
                 month == 11) {
-                return 30
+                return 30;
         } else {
                 return -1;
         }

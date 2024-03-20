@@ -60,7 +60,7 @@ bool person_destroy(Person person) {
 }
 
 bool person_get_first_name(char *first_name, size_t max_length, Person person) {
-        int i = 0;
+        size_t i = 0;
         int j = 0;
         while (i < max_length-1 && person->first_name[j] != '\0')
                 first_name[i++] = person->first_name[j++];
