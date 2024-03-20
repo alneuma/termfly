@@ -19,22 +19,29 @@ TEST_CFLAGS += -Wpedantic
 TEST_CFLAGS += -DUNITY_SUPPORT_64 -DUNITY_OUTPUT_COLOR
 TEST_CPPFLAGS = -I $(TEST_INC_DIR)
 
-## main program ##
+## make objects (except main and test) ##
 
 INC_DIR := inc
 SRC_DIR := src
 OBJ_DIR := obj
 
 SRCS := \
-	main.c \
 	person.c \
 	date.c
 SRCS := $(SRCS:%.c=$(SRC_DIR)/%.c)
 OBJS := $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
-NAME := name_database.x
+## make main (objects and bin) ##
 
-## test program ##
+MAIN_SRC_DIR := main
+MAIN_OBJ_DIR := main
+MAIN_SRCS := \
+	     main.c
+MAIN_SRCS := $(MAIN_SRCS:%.c=$(MAIN_SRC_DIR)/%.c)
+MAIN_OBJS := $(MAIN_SRCS:$(MAIN_SRC_DIR)/%.c=$(MAIN_OBJ_DIR)/%.o)
+MAIN_NAME := name_database.x
+
+## make test (objects and bin) ##
 
 TEST_DIR := test
 TEST_SRC_DIR := $(TEST_DIR)/src
@@ -56,11 +63,11 @@ DIR_DUP = mkdir -p $(@D)
 
 ## rules ##
 
-all: $(NAME)
+all: $(MAIN_NAME)
 
-$(NAME): $(OBJS)
-	$(CC) $(OBJS) -o $(NAME)
-	$(info CREATED $(NAME))
+$(MAIN_NAME): $(OBJS) $(MAIN_OBJS)
+	$(CC) $(OBJS) $(MAIN_OBJS) -o $(NAME)
+	$(info CREATED $(MAIN_NAME))
 
 $(TEST_NAME): $(OBJS) $(TEST_OBJS)
 	$(CC) $(OBJS) $(TEST_OBJS) -o $(TEST_NAME)
