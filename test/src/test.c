@@ -1,8 +1,8 @@
 #include "unity.h"
 
 //// comment or uncomment to test different headers ////
-#define TEST_UTILITY_NUMBERS_H
-//#define TEST_DATE_H
+//#define TEST_UTILITY_NUMBERS_H
+#define TEST_DATE_H
 //#define TEST_PERSON_H
 
 
@@ -227,15 +227,16 @@ void test_date__date_set_year__date_get_year_05_gets_what_was_set(void) {
 }
 
 // date_validate()
-
 void test_date__date_validate_01_null_yields_negative_two(void) {
         Date d = NULL;
         TEST_ASSERT(-2 == date_validate(d));
+        date_destroy(&d);
 }
 
 void test_date__date_validate_02_default_date_yields_negative_one(void) {
         Date d = date_create();
         TEST_ASSERT(-1 == date_validate(d));
+        date_destroy(&d);
 }
 
 void test_date__date_validate_03_month_thirteen_yields_negative_one(void) {
@@ -243,6 +244,7 @@ void test_date__date_validate_03_month_thirteen_yields_negative_one(void) {
         date_set_day(1, d);
         date_set_month(13, d);
         TEST_ASSERT(-1 == date_validate(d));
+        date_destroy(&d);
 }
 
 void test_date__date_validate_04_month_twelve_day_thirytwo_yields_negateive_one(void) {
@@ -250,6 +252,7 @@ void test_date__date_validate_04_month_twelve_day_thirytwo_yields_negateive_one(
         date_set_day(32, d);
         date_set_month(12, d);
         TEST_ASSERT(-1 == date_validate(d));
+        date_destroy(&d);
 }
 
 void test_date__date_validate_05_non_leap_year_feb_twentynine_yields_negateive_one(void) {
@@ -258,6 +261,7 @@ void test_date__date_validate_05_non_leap_year_feb_twentynine_yields_negateive_o
         date_set_month(2, d);
         date_set_year(1991, d);
         TEST_ASSERT(-1 == date_validate(d));
+        date_destroy(&d);
 }
 
 void test_date__date_validate_06_leap_year_feb_twentynine_yields_zero(void) {
@@ -266,6 +270,7 @@ void test_date__date_validate_06_leap_year_feb_twentynine_yields_zero(void) {
         date_set_month(2, d);
         date_set_year(1992, d);
         TEST_ASSERT(0 == date_validate(d));
+        date_destroy(&d);
 }
 
 void test_date__date_validate_07_random_valid_date_yields_zero(void) {
@@ -274,11 +279,38 @@ void test_date__date_validate_07_random_valid_date_yields_zero(void) {
         date_set_month(8, d);
         date_set_year(2001, d);
         TEST_ASSERT(0 == date_validate(d));
+        date_destroy(&d);
 }
 
 // date_get_string_length()
+void test_date__date_get_string_length_01_zero_if_not_a_valid_date(void) {
+        Date d = date_create();
+        TEST_ASSERT(0 == date_get_string_length(d));
+        date_destroy(&d);
+}
 
-void test_date__date_get_string_length_01(void) {
+void test_date__date_get_string_length_02_valid_date_ad(void) {
+        Date d = date_create();
+        date_set_day(1, d);
+        date_set_month(1, d);
+        date_set_year(1, d);
+        TEST_ASSERT(15 == date_get_string_length(d));
+        date_destroy(&d);
+}
+
+void test_date__date_get_string_length_03_valid_date_bc(void) {
+        Date d = date_create();
+        date_set_day(31, d);
+        date_set_month(12, d);
+        date_set_year(-1, d);
+        TEST_ASSERT(17 == date_get_string_length(d));
+        date_destroy(&d);
+}
+
+// date_get_string_max_length()
+void test_date__date_get_string_max_length_01(void) {
+        TEST_ASSERT(22 == date_get_string_max_length()); // works for typedef int16_t year_t
+}
 
 // date_get_string()
 
@@ -287,6 +319,11 @@ void test_date__date_get_string_01(void) {
         date_set_day(13, d);
         date_set_month(8, d);
         date_set_year(2001, d);
+        size_t length = date_get_string_length(d);
+        char st[length];
+        date_get_string(st, length, d);
+        puts(st);
+        date_destroy(&d);
 }
 
 #endif //TEST_DATE_H
@@ -359,7 +396,14 @@ int main(void) {
         RUN_TEST(test_date__date_validate_05_non_leap_year_feb_twentynine_yields_negateive_one);
         RUN_TEST(test_date__date_validate_06_leap_year_feb_twentynine_yields_zero);
         RUN_TEST(test_date__date_validate_07_random_valid_date_yields_zero);
+        printf("\nNow testing date_get_string_length():\n\n");
+        RUN_TEST(test_date__date_get_string_length_01_zero_if_not_a_valid_date);
+        RUN_TEST(test_date__date_get_string_length_02_valid_date_ad);
+        RUN_TEST(test_date__date_get_string_length_03_valid_date_bc);
+        printf("\nNow testing date_get_string_max_length():\n\n");
+        RUN_TEST(test_date__date_get_string_max_length_01);
         printf("\nNow testing date_get_string():\n\n");
+        RUN_TEST(test_date__date_get_string_01);
 #endif //TEST_DATE_H
  
         return UNITY_END();

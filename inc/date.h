@@ -57,27 +57,32 @@ size_t date_get_string_length(Date date);
 // returns 0 if date is not valid
 
 size_t date_get_string_max_length(void);
-// returns a fixed size a date string could maximally have
+// returns the fixed size a date string could maximally have
 // assuming the year, does not take more than six digits.
-// Use this instead of date_get_string_length for (slightly)
-// improved performance or if variable length arrays are not
-// supported (i.e. __STDC_NO_VLA__ is defined)
+// Use this instead of date_get_string_length if variable
+// length arrays are not supported (i.e. __STDC_NO_VLA__ is defined).
 
-int date_get_string(char target_string[], Date date);
-// If provided with correct arguments
-// writes the date of the following format to target_string[]
+int date_get_string(char target_string[], size_t target_string_length, Date date);
+// If provided with correct arguments a null
+// terminated string showing the date in the format:
 // "<day> <month> <year> <AD|BC>"
 //
-// target_string[] should be of the length returned by
-// date_get_string(date)
-//
-// -3 if target_string[] is too small
+// Writes a maximum of target_string_length
+// cahracters to target_string[].
+// -3 if target_string_length is too small
 // -2 if date == NULL
 // -1 for impossible combination of
 // day, month and year
 // 0 if everything is fine
 //
-// Only does the writing if return value is 0.
+// Only does the writing if return value is -3 or 0.
+//
+// The correct value for target_string_length should be
+// determined by calling date_get_string_length(date)
+// if variable length arrays are supported
+// (i.e. __STDC_NO_VLA__ is defined)
+// Otherwise it should be determined by calling
+// date_get_max_string_length()
 
 size_t date_get_size(Date date);
 // returns memory size of the given date

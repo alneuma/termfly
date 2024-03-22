@@ -9,6 +9,7 @@ CFLAGS += -Wall
 CFLAGS += -Wextra
 CFLAGS += -Wpedantic
 CFLAGS += -DUNITY_SUPPORT_64 -DUNITY_OUTPUT_COLOR
+#CFLAGS += -lm
 CFLAGS += -Wmissing-declarations
 CPPFLAGS = -I $(INC_DIR)
 
@@ -16,6 +17,7 @@ TEST_CFLAGS += -g
 TEST_CFLAGS += -Wall
 TEST_CFLAGS += -Wextra
 TEST_CFLAGS += -Wpedantic
+#TEST_CFLAGS += -lm
 TEST_CFLAGS += -DUNITY_SUPPORT_64 -DUNITY_OUTPUT_COLOR
 TEST_CPPFLAGS = -I $(TEST_INC_DIR)
 
@@ -54,7 +56,7 @@ TEST_SRCS := \
 TEST_SRCS := $(TEST_SRCS:%.c=$(TEST_SRC_DIR)/%.c)
 TEST_OBJS := $(TEST_SRCS:$(TEST_SRC_DIR)/%.c=$(TEST_OBJ_DIR)/%.o)
 
-TEST_NAME := $(TEST_DIR)/test.x
+TEST_NAME := test.x
 
 ## general ##
 
@@ -85,7 +87,7 @@ $(TEST_OBJ_DIR)/%.o: $(TEST_SRC_DIR)/%.c
 	$(info CREATED $@)
 
 test: $(TEST_NAME)
-	$(TEST_NAME)
+	./$(TEST_NAME)
 
 mostlyclean:
 	$(RM) $(OBJS) $(TEST_OBJS)

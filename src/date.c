@@ -170,34 +170,38 @@ size_t date_get_string_max_length(void) {
         return length;
 }       
 
-int date_get_string(char target_string[], Date date) {
-//        if (date_validate(date) != 0)
-//                return NULL;
-//
-//        char *date_string = malloc(date_get_string_length() * sizeof(*date_string));
-//        if (date_string == NULL)
-//                return NULL;
-//
-//        static char *months[] = { "January",
-//                                  "February",
-//                                  "March",
-//                                  "April",
-//                                  "May",
-//                                  "June",
-//                                  "July",
-//                                  "August",
-//                                  "September",
-//                                  "October",
-//                                  "November",
-//                                  "December" };
-//
-//        snprintf(date_string, DATE_STRING_LENGTH, "%d %s %d %s",
-//                        date->day,
-//                        months[date->month],
-//                        abs(date->year),
-//                        (date->year < 0) ? "BC" : "AD");
-//
-//        return date_string;
+int date_get_string(char target_string[], size_t target_string_length, Date date) {
+        int code;
+        if ((code = date_validate(date)))
+                return code;
+        
+        static char *months[] = { "January",
+                                  "February",
+                                  "March",
+                                  "April",
+                                  "May",
+                                  "June",
+                                  "July",
+                                  "August",
+                                  "September",
+                                  "October",
+                                  "November",
+                                  "December" };
+
+        snprintf(target_string, target_string_length, "%d %s %llu %s",
+                        date->day,
+                        months[date->month-1],
+                        (long long unsigned int)abs(date->year),
+                        (date->year < 0) ? "BC" : "AD");
+
+#ifdef __STDC_NO_VLA__
+        if (target_string_length < date_get_string_max_length())
+#else   
+        if (target_string_length < date_get_string_length(date))
+#endif
+                return -3;
+        else
+                return 0;
 }
 
 
