@@ -94,10 +94,21 @@ Date date_create(void) {
 }
 
 bool date_destroy(Date *date) {
+        if (date == NULL)
+                return false;
         if (*date == NULL)
                 return false;
         free(*date);
         *date = NULL;
+        return true;
+}
+
+bool date_copy(Date target, Date source) {
+        if (target == NULL || source == NULL)
+                return false;
+        target->day = source->day;
+        target->month = source->month;
+        target->year = source->year;
         return true;
 }
 
@@ -151,6 +162,15 @@ bool date_set_year(year_t year, Date date) {
         date->year = year;
         return true;
 }
+
+// day_t date_get_delta_day(Date first, Date second) {
+// }
+// 
+// month_t date_get_delta_month(Date first, Date second) {
+// }
+// 
+// year_t date_get_delta_year(Date first, Date second) {
+// }
 
 size_t date_get_string_length(Date date) {
         if (date_validate(date))

@@ -2,7 +2,7 @@
 
 //// comment or uncomment to test different headers ////
 //#define TEST_UTILITY_NUMBERS_H
-#define TEST_DATE_H
+//#define TEST_DATE_H
 //#define TEST_PERSON_H
 
 
@@ -331,6 +331,11 @@ void test_date__date_get_string_01(void) {
 //// person.h ////
 #ifdef TEST_PERSON_H
 #include "person.h"
+
+void test_person__person_destroy_01(void) {
+        Person p = person_create();
+        TEST_ASSERT_NOT_NULL(p);
+}
 
 #endif //TEST_PERSON_H
 

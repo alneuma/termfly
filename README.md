@@ -1,6 +1,6 @@
 # termfly
 
-This is a hobby/practice project, that aims to be a commandline operated client/server pair with online forum funtionality somewhen in the future.
+termfly is a hobby/practice project, that aims to be a commandline operated client/server pair with online forum funtionality somewhen in the future.
 
 ## todo
 
@@ -33,6 +33,7 @@ This is a hobby/practice project, that aims to be a commandline operated client/
 - [ ] implement date.c
     - [x] implement date_create()
     - [x] implement date_destroy()
+    - [x] implement date_copy()
     - [x] implement date_validate()
     - [x] implement date_get_day()
     - [x] implement date_get_month()
@@ -53,6 +54,7 @@ This is a hobby/practice project, that aims to be a commandline operated client/
 
 - [ ] test date.h
     - [x] test date_destroy()
+    - [ ] test date_copy()
     - [x] test date_validate()
     - [x] test date_get_day()
     - [x] test date_get_month()
@@ -70,30 +72,36 @@ This is a hobby/practice project, that aims to be a commandline operated client/
 ###### person.h
 
 - [ ] implement person.c
-    - [ ] implement person_init()
+    - [x] implement person_create()
+    - [x] implement person_destroy()
+    - [x] implement person_copy()
+    - [x] implement person_get_size_first_name()
+    - [x] implement person_get_size_last_name()
+    - [x] implement person_get_size_id()
+    - [x] implement person_get_first_name()
+    - [x] implement person_get_last_name()
+    - [x] implement person_get_id()
+    - [x] implement person_get_birthday()
+    - [x] implement person_set_first_name()
+    - [x] implement person_set_last_name()
+    - [x] implement person_set_id()
+    - [x] implement person_set_birthday()
+
+- [ ] test person.h
+    - [ ] implement person_create()
     - [ ] implement person_destroy()
+    - [ ] implement person_copy()
+    - [ ] implement person_get_size_first_name()
+    - [ ] implement person_get_size_last_name()
+    - [ ] implement person_get_size_id()
     - [ ] implement person_get_first_name()
     - [ ] implement person_get_last_name()
     - [ ] implement person_get_id()
-    - [ ] implement person_get_age()
+    - [ ] implement person_get_birthday()
     - [ ] implement person_set_first_name()
     - [ ] implement person_set_last_name()
     - [ ] implement person_set_id()
-    - [ ] implement person_set_age()
-    - [ ] implement person_get_birthday()
-
-- [ ] test person.h
-    - [ ] test person_init()
-    - [ ] test person_destroy()
-    - [ ] test person_get_first_name()
-    - [ ] test person_get_last_name()
-    - [ ] test person_get_id()
-    - [ ] test person_get_age()
-    - [ ] test person_set_first_name()
-    - [ ] test person_set_last_name()
-    - [ ] test person_set_id()
-    - [ ] test person_set_age()
-    - [ ] test person_get_birthday()
+    - [ ] implement person_set_birthday()
 
 #### forum-content functionality
 

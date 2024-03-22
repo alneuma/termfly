@@ -15,10 +15,15 @@ Date date_create(void);
 // returns NULL if memory allocation failed
 
 bool date_destroy(Date *date);
-// false if date == NULL
+// false if date or *date is NULL
 // otherwise disallocates date's memory from date
 // sets date to NULL
 // and returns true
+
+bool date_copy(Date target, Date source);
+// Copies all date data from source to target
+// overwriting everything, that has been there.
+// Retruns true on success, otherwise false.
 
 int date_validate(Date date);
 // -2 if date == NULL
@@ -49,6 +54,18 @@ bool date_set_month(month_t month, Date date);
 bool date_set_year(year_t year, Date date);
 // false if date == NULL
 // otherwise true and as expected
+
+int32_t date_get_delta_day(Date first, Date second);
+// Returns the number of full days between first and second.
+// Can be negative if first is later than second.
+
+int32_t date_get_delta_month(Date first, Date second);
+// Returns the number of full months between first and second.
+// Can be negative if first is later than second.
+
+year_t date_get_delta_year(Date first, Date second);
+// Returns the number of full years between first and second.
+// Can be negative if first is later than second.
 
 size_t date_get_string_length(Date date);
 // returns length of the null terminated string
