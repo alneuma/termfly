@@ -26,6 +26,7 @@ SRC_DIR := src
 OBJ_DIR := obj
 
 SRCS := \
+	utility_numbers.c \
 	person.c \
 	date.c
 SRCS := $(SRCS:%.c=$(SRC_DIR)/%.c)

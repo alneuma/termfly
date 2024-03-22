@@ -12,6 +12,18 @@ The plan is to use this as a basis for a networked application.
     [x] add license
     [x] set up testing framework unity
 
+### utility_number.h
+
+[x] implement utility_numbers.c
+    [x] implement count_digits_int64()
+    [x] implement count_digits_uint64()
+    [x] implement macro COUNT_DIGITS_INT()
+
+[x] test utility_numbers.h
+    [x] test count_digits_int64()
+    [x] test count_digits_uint64()
+    [x] test macro COUNT_DIGITS_INT()
+
 ### date.h
 
 [ ] implement date.c
@@ -24,22 +36,26 @@ The plan is to use this as a basis for a networked application.
     [x] implement date_set_day()
     [x] implement date_set_month()
     [x] implement date_set_year()
-    [x] implement date_get_string()
+    [ ] implement date_get_string_length()
+    [ ] implement date_get_string_max_length()
+    [ ] implement date_get_string()
     [x] implement date_get_size()
     [x] implement private function is_leap_year()
     [x] implement private function days_in_month()
+    [x] implement date_get_characters_in_month()
 
-[ ] test date.c
+[ ] test date.h
     [x] test date_destroy()
-    [ ] test date_validate()
+    [x] test date_validate()
     [x] test date_get_day()
     [x] test date_get_month()
     [x] test date_get_year()
     [x] test date_set_day()
     [x] test date_set_month()
     [x] test date_set_year()
+    [ ] test date_get_string_length()
+    [ ] test date_get_string_max_length()
     [ ] test date_get_string()
-    [ ] test date_get_size()
 
 ### person.h
 
@@ -56,7 +72,7 @@ The plan is to use this as a basis for a networked application.
     [ ] implement person_set_age()
     [ ] implement person_get_birthday()
 
-[ ] test person.c
+[ ] test person.h
     [ ] test person_init()
     [ ] test person_destroy()
     [ ] test person_get_first_name()
