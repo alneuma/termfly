@@ -2,7 +2,7 @@
 
 //// comment or uncomment to test different headers ////
 //#define TEST_UTILITY_NUMBERS_H
-//#define TEST_DATE_H
+#define TEST_DATE_H
 //#define TEST_PERSON_H
 
 
@@ -226,6 +226,73 @@ void test_date__date_set_year__date_get_year_05_gets_what_was_set(void) {
         date_destroy(&d);
 }
 
+// date_copy()
+void test_date__date_copy_01_target_null(void) {
+        Date t = NULL;
+        Date s = date_create();
+        TEST_ASSERT_FALSE(date_copy(t, s));
+}
+
+void test_date__date_copy_02_source_null(void) {
+        Date t = date_create();
+        Date s = NULL;
+        TEST_ASSERT_FALSE(date_copy(t, s));
+}
+
+void test_date__date_copy_03_both_null(void) {
+        Date t = NULL;
+        Date s = NULL;
+        TEST_ASSERT_FALSE(date_copy(t, s));
+}
+
+void test_date__date_copy_04_both_initialized(void) {
+        Date t = date_create();
+        Date s = date_create();
+        TEST_ASSERT_TRUE(date_copy(t, s));
+}
+
+void test_date__date_copy_05_day(void) {
+        Date t = date_create();
+        Date s = date_create();
+        date_set_day(6, s);
+        date_set_month(17, s);
+        date_set_year(2004, s);
+        date_copy(t, s);
+        day_t t_day;
+        day_t s_day;
+        date_get_day(&t_day, t);
+        date_get_day(&s_day, s);
+        TEST_ASSERT_EQUAL_INT(s_day, t_day);
+}
+
+void test_date__date_copy_06_month(void) {
+        Date t = date_create();
+        Date s = date_create();
+        date_set_day(6, s);
+        date_set_month(17, s);
+        date_set_year(2004, s);
+        date_copy(t, s);
+        month_t t_month;
+        month_t s_month;
+        date_get_month(&t_month, t);
+        date_get_month(&s_month, s);
+        TEST_ASSERT_EQUAL_INT(s_month, t_month);
+}
+
+void test_date__date_copy_07_year(void) {
+        Date t = date_create();
+        Date s = date_create();
+        date_set_day(6, s);
+        date_set_month(17, s);
+        date_set_year(2004, s);
+        date_copy(t, s);
+        year_t t_year;
+        year_t s_year;
+        date_get_year(&t_year, t);
+        date_get_year(&s_year, s);
+        TEST_ASSERT_EQUAL_INT(s_year, t_year);
+}
+
 // date_validate()
 void test_date__date_validate_01_null_yields_negative_two(void) {
         Date d = NULL;
@@ -393,6 +460,14 @@ int main(void) {
         RUN_TEST(test_date__date_set_year__date_get_year_03_gett_from_null_yields_false);
         RUN_TEST(test_date__date_set_year__date_get_year_04_default_value_is_0);
         RUN_TEST(test_date__date_set_year__date_get_year_05_gets_what_was_set);
+        printf("\nNow testing date_copy():\n\n");
+        RUN_TEST(test_date__date_copy_01_target_null);
+        RUN_TEST(test_date__date_copy_02_source_null);
+        RUN_TEST(test_date__date_copy_03_both_null);
+        RUN_TEST(test_date__date_copy_04_both_initialized);
+        RUN_TEST(test_date__date_copy_05_day);
+        RUN_TEST(test_date__date_copy_06_month);
+        RUN_TEST(test_date__date_copy_07_year);
         printf("\nNow testing date_validate():\n\n");
         RUN_TEST(test_date__date_validate_01_null_yields_negative_two);
         RUN_TEST(test_date__date_validate_02_default_date_yields_negative_one);

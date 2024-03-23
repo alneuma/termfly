@@ -54,7 +54,7 @@ termfly is a hobby/practice project, that aims to be a commandline operated clie
 
 - [ ] test date.h
     - [x] test date_destroy()
-    - [ ] test date_copy()
+    - [x] test date_copy()
     - [x] test date_validate()
     - [x] test date_get_day()
     - [x] test date_get_month()
@@ -71,7 +71,7 @@ termfly is a hobby/practice project, that aims to be a commandline operated clie
 
 ###### person.h
 
-- [ ] implement person.c
+- [x] implement person.c
     - [x] implement person_create()
     - [x] implement person_destroy()
     - [x] implement person_copy()
