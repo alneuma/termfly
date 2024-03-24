@@ -52,7 +52,7 @@ bool person_destroy(Person *person) {
         return true;
 }
 
-bool person_copy(Person target, Person source) {
+bool person_copy(Person target, const Person source) {
         if (target == NULL || source == NULL)
                 return false;
 
@@ -82,19 +82,25 @@ bool person_copy(Person target, Person source) {
         return true;
 }
 
-size_t person_get_size_first_name(Person person) {
-        return strlen(person->first_name);
+size_t person_get_size_first_name(const Person person) {
+        if (person == NULL)
+                return 0;
+        return strlen(person->first_name) + 1;
 }
 
-size_t person_get_size_last_name(Person person) {
-        return strlen(person->last_name);
+size_t person_get_size_last_name(const Person person) {
+        if (person == NULL)
+                return 0;
+        return strlen(person->last_name) + 1;
 }
 
-size_t person_get_size_id(Person person) {
-        return strlen(person->id);
+size_t person_get_size_id(const Person person) {
+        if (person == NULL)
+                return 0;
+        return strlen(person->id) + 1;
 }
 
-size_t person_get_first_name(char first_name[], size_t max_length, Person person) {
+size_t person_get_first_name(char first_name[], const size_t max_length, const Person person) {
         if (first_name == NULL || person == NULL)
                 return 0;
 
@@ -108,7 +114,7 @@ size_t person_get_first_name(char first_name[], size_t max_length, Person person
         return i;
 }
 
-size_t person_get_last_name(char last_name[], size_t max_length, Person person) {
+size_t person_get_last_name(char last_name[], const size_t max_length, const Person person) {
         if (last_name == NULL || person == NULL)
                 return 0;
 
@@ -122,7 +128,7 @@ size_t person_get_last_name(char last_name[], size_t max_length, Person person) 
         return i;
 }
 
-size_t person_get_id(char id[], size_t max_length, Person person) {
+size_t person_get_id(char id[], const size_t max_length, const Person person) {
         if (id == NULL || person == NULL)
                 return 0;
 
@@ -136,13 +142,13 @@ size_t person_get_id(char id[], size_t max_length, Person person) {
         return i;
 }
 
-bool person_get_birthday(Date birthday, Person person) {
+bool person_get_birthday(Date birthday, const Person person) {
         if (birthday == NULL || person == NULL)
                 return false;
         return date_copy(birthday, person->birthday);
 }
 
-bool person_set_first_name(char first_name[], Person person) {
+bool person_set_first_name(const char first_name[], Person person) {
         if (first_name == NULL || person == NULL)
                 return false;
 
@@ -155,7 +161,7 @@ bool person_set_first_name(char first_name[], Person person) {
         return true;
 }
 
-bool person_set_last_name(char last_name[], Person person) {
+bool person_set_last_name(const char last_name[], Person person) {
         if (last_name == NULL || person == NULL)
                 return false;
 
@@ -168,7 +174,7 @@ bool person_set_last_name(char last_name[], Person person) {
         return true;
 }
 
-bool person_set_id(char id[], Person person) {
+bool person_set_id(const char id[], Person person) {
         if (id == NULL || person == NULL)
                 return false;
 
@@ -181,7 +187,7 @@ bool person_set_id(char id[], Person person) {
         return true;
 }
 
-bool person_set_birthday(Date birthday, Person person) {
+bool person_set_birthday(const Date birthday, Person person) {
         if (birthday == NULL || person == NULL)
                 return false;
         return date_copy(person->birthday, birthday);

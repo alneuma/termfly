@@ -2,15 +2,11 @@
 
 //// comment or uncomment to test different headers ////
 //#define TEST_UTILITY_NUMBERS_H
-#define TEST_DATE_H
-//#define TEST_PERSON_H
+//#define TEST_DATE_H
+#define TEST_PERSON_H
 
-
-void setUp(void) {
-}
-
-void tearDown(void) {
-}
+void setUp(void) {}
+void tearDown(void) {}
 
 //// utility_numbers.h ////
 #ifdef TEST_UTILITY_NUMBERS_H
@@ -398,10 +394,240 @@ void test_date__date_get_string_01(void) {
 //// person.h ////
 #ifdef TEST_PERSON_H
 #include "person.h"
+#include "date.h"
 
-void test_person__person_destroy_01(void) {
+// person_destroy()
+void test_person__person_destroy_01_true_if_successful(void) {
         Person p = person_create();
-        TEST_ASSERT_NOT_NULL(p);
+        TEST_ASSERT_TRUE(person_destroy(&p));
+}
+
+void test_person__person_destroy_02_false_if_null(void) {
+        Person p = NULL;
+        TEST_ASSERT_FALSE(person_destroy(&p));
+}
+
+// person_create()
+void test_person__person_create_01_first_name_empty(void) {
+        Person p = person_create();
+        size_t length = person_get_size_first_name(p);
+        char first_name[length];
+        person_get_first_name(first_name, length, p);
+        TEST_ASSERT_EQUAL_STRING("", first_name);
+        person_destroy(&p);
+}
+
+void test_person__person_create_02_last_name_empty(void) {
+        Person p = person_create();
+        size_t length = person_get_size_last_name(p);
+        char last_name[length];
+        person_get_last_name(last_name, length, p);
+        TEST_ASSERT_EQUAL_STRING("", last_name);
+        person_destroy(&p);
+}
+
+void test_person__person_create_03_id_empty(void) {
+        Person p = person_create();
+        size_t length = person_get_size_id(p);
+        char id[length];
+        person_get_id(id, length, p);
+        TEST_ASSERT_EQUAL_STRING("", id);
+        person_destroy(&p);
+}
+
+void test_person__person_create_04_birthday_day_zero(void) {
+        Person p = person_create();
+        Date birthday = date_create();
+        person_get_birthday(birthday, p);
+        day_t day;
+        date_get_day(&day, birthday);
+        TEST_ASSERT_EQUAL_INT(0, day);
+        date_destroy(&birthday);
+        person_destroy(&p);
+}
+
+void test_person__person_create_05_birthday_month_zero(void) {
+        Person p = person_create();
+        Date birthday = date_create();
+        person_get_birthday(birthday, p);
+        month_t month;
+        date_get_month(&month, birthday);
+        TEST_ASSERT_EQUAL_INT(0, month);
+        date_destroy(&birthday);
+        person_destroy(&p);
+}
+
+void test_person__person_create_06_birthday_year_zero(void) {
+        Person p = person_create();
+        Date birthday = date_create();
+        person_get_birthday(birthday, p);
+        year_t year;
+        date_get_year(&year, birthday);
+        TEST_ASSERT_EQUAL_INT(0, year);
+        date_destroy(&birthday);
+        person_destroy(&p);
+}
+
+// person_set_first_name() and person_get_first_name()
+void test_person__person_set_first_name__person_get_first_name_01_set_returns_false_if_string_null(void) {
+        Person p = person_create();
+        char *first_name = NULL;
+        TEST_ASSERT_FALSE(person_set_first_name(first_name, p));
+        person_destroy(&p);
+}
+
+void test_person__person_set_first_name__person_get_first_name_02_set_returns_false_if_person_null(void) {
+        Person p = NULL;
+        char *first_name = "John";
+        TEST_ASSERT_FALSE(person_set_first_name(first_name, p));
+        person_destroy(&p);
+}
+
+void test_person__person_set_first_name__person_get_first_name_03_empty_string(void) {
+        Person p = person_create();
+        person_set_first_name("", p);
+        size_t length = person_get_size_first_name(p);
+        char first_name[length];
+        person_get_first_name(first_name, length, p);
+        TEST_ASSERT_EQUAL_STRING("", first_name);
+        person_destroy(&p);
+}
+
+void test_person__person_set_first_name__person_get_first_name_04_normal_case(void) {
+        Person p = person_create();
+        person_set_first_name("John", p);
+        size_t length = person_get_size_first_name(p);
+        char first_name[length];
+        person_get_first_name(first_name, length, p);
+        TEST_ASSERT_EQUAL_STRING("John", first_name);
+        person_destroy(&p);
+}
+
+// person_set_last_name() and person_get_last_name()
+void test_person__person_set_last_name__person_get_last_name_01_set_returns_false_if_string_null(void) {
+        Person p = person_create();
+        char *last_name = NULL;
+        TEST_ASSERT_FALSE(person_set_last_name(last_name, p));
+        person_destroy(&p);
+}
+
+void test_person__person_set_last_name__person_get_last_name_02_set_returns_false_if_person_null(void) {
+        Person p = NULL;
+        char *last_name = "Doe";
+        TEST_ASSERT_FALSE(person_set_last_name(last_name, p));
+        person_destroy(&p);
+}
+
+void test_person__person_set_last_name__person_get_last_name_03_empty_string(void) {
+        Person p = person_create();
+        person_set_last_name("", p);
+        size_t length = person_get_size_last_name(p);
+        char last_name[length];
+        person_get_last_name(last_name, length, p);
+        TEST_ASSERT_EQUAL_STRING("", last_name);
+        person_destroy(&p);
+}
+
+void test_person__person_set_last_name__person_get_last_name_04_normal_case(void) {
+        Person p = person_create();
+        person_set_last_name("Doe", p);
+        size_t length = person_get_size_last_name(p);
+        char last_name[length];
+        person_get_last_name(last_name, length, p);
+        TEST_ASSERT_EQUAL_STRING("Doe", last_name);
+        person_destroy(&p);
+}
+
+// person_set_id() and person_get_id()
+void test_person__person_set_id__person_get_id_01_set_returns_false_if_string_null(void) {
+        Person p = person_create();
+        char *id = NULL;
+        TEST_ASSERT_FALSE(person_set_id(id, p));
+        person_destroy(&p);
+}
+
+void test_person__person_set_id__person_get_id_02_set_returns_false_if_person_null(void) {
+        Person p = NULL;
+        char *id = "jd";
+        TEST_ASSERT_FALSE(person_set_id(id, p));
+        person_destroy(&p);
+}
+
+void test_person__person_set_id__person_get_id_03_empty_string(void) {
+        Person p = person_create();
+        person_set_id("", p);
+        size_t length = person_get_size_id(p);
+        char id[length];
+        person_get_id(id, length, p);
+        TEST_ASSERT_EQUAL_STRING("", id);
+        person_destroy(&p);
+}
+
+void test_person__person_set_id__person_get_id_04_normal_case(void) {
+        Person p = person_create();
+        person_set_id("jd", p);
+        size_t length = person_get_size_id(p);
+        char id[length];
+        person_get_id(id, length, p);
+        TEST_ASSERT_EQUAL_STRING("jd", id);
+        person_destroy(&p);
+}
+
+// person_get_size_first_name()
+void test_person__person_get_size_first_name_01_zero_if_person_null(void) {
+        Person p = NULL;
+        TEST_ASSERT_EQUAL_INT(0, person_get_size_first_name(p));
+}
+
+void test_person__person_get_size_first_name_02_empty_string(void) {
+        Person p = person_create();
+        TEST_ASSERT_EQUAL_INT(1, person_get_size_first_name(p));
+        person_destroy(&p);
+}
+
+void test_person__person_get_size_first_name_03_normal_case(void) {
+        Person p = person_create();
+        person_set_first_name("John", p);
+        TEST_ASSERT_EQUAL_INT(5, person_get_size_first_name(p));
+        person_destroy(&p);
+}
+
+// person_get_size_last_name()
+void test_person__person_get_size_last_name_01_zero_if_person_null(void) {
+        Person p = NULL;
+        TEST_ASSERT_EQUAL_INT(0, person_get_size_last_name(p));
+}
+
+void test_person__person_get_size_last_name_02_empty_string(void) {
+        Person p = person_create();
+        TEST_ASSERT_EQUAL_INT(1, person_get_size_last_name(p));
+        person_destroy(&p);
+}
+
+void test_person__person_get_size_last_name_03_normal_case(void) {
+        Person p = person_create();
+        person_set_last_name("Doe", p);
+        TEST_ASSERT_EQUAL_INT(4, person_get_size_last_name(p));
+        person_destroy(&p);
+}
+
+// person_get_size_id()
+void test_person__person_get_size_id_01_zero_if_person_null(void) {
+        Person p = NULL;
+        TEST_ASSERT_EQUAL_INT(0, person_get_size_id(p));
+}
+
+void test_person__person_get_size_id_02_empty_string(void) {
+        Person p = person_create();
+        TEST_ASSERT_EQUAL_INT(1, person_get_size_id(p));
+        person_destroy(&p);
+}
+
+void test_person__person_get_size_id_03_normal_case(void) {
+        Person p = person_create();
+        person_set_id("jd", p);
+        TEST_ASSERT_EQUAL_INT(3, person_get_size_id(p));
+        person_destroy(&p);
 }
 
 #endif //TEST_PERSON_H
@@ -485,6 +711,47 @@ int main(void) {
         printf("\nNow testing date_get_string():\n\n");
         RUN_TEST(test_date__date_get_string_01);
 #endif //TEST_DATE_H
+
+#ifdef TEST_PERSON_H
+        printf("\n### testing person.h ###\n");
+        printf("\nNow testing person_destroy():\n\n");
+        RUN_TEST(test_person__person_destroy_01_true_if_successful);
+        RUN_TEST(test_person__person_destroy_02_false_if_null);
+        printf("\nNow testing person_create():\n\n");
+        RUN_TEST(test_person__person_create_01_first_name_empty);
+        RUN_TEST(test_person__person_create_02_last_name_empty);
+        RUN_TEST(test_person__person_create_03_id_empty);
+        RUN_TEST(test_person__person_create_04_birthday_day_zero);
+        RUN_TEST(test_person__person_create_05_birthday_month_zero);
+        RUN_TEST(test_person__person_create_06_birthday_year_zero);
+        printf("\nNow testing person_set_first_name() and person_get_first_name():\n\n");
+        RUN_TEST(test_person__person_set_first_name__person_get_first_name_01_set_returns_false_if_string_null);
+        RUN_TEST(test_person__person_set_first_name__person_get_first_name_02_set_returns_false_if_person_null);
+        RUN_TEST(test_person__person_set_first_name__person_get_first_name_03_empty_string);
+        RUN_TEST(test_person__person_set_first_name__person_get_first_name_04_normal_case);
+        printf("\nNow testing person_set_last_name() and person_get_last_name():\n\n");
+        RUN_TEST(test_person__person_set_last_name__person_get_last_name_01_set_returns_false_if_string_null);
+        RUN_TEST(test_person__person_set_last_name__person_get_last_name_02_set_returns_false_if_person_null);
+        RUN_TEST(test_person__person_set_last_name__person_get_last_name_03_empty_string);
+        RUN_TEST(test_person__person_set_last_name__person_get_last_name_04_normal_case);
+        printf("\nNow testing person_set_id() and person_get_id():\n\n");
+        RUN_TEST(test_person__person_set_id__person_get_id_01_set_returns_false_if_string_null);
+        RUN_TEST(test_person__person_set_id__person_get_id_02_set_returns_false_if_person_null);
+        RUN_TEST(test_person__person_set_id__person_get_id_03_empty_string);
+        RUN_TEST(test_person__person_set_id__person_get_id_04_normal_case);
+        printf("\nNow testing person_get_size_first_name():\n\n");
+        RUN_TEST(test_person__person_get_size_first_name_01_zero_if_person_null);
+        RUN_TEST(test_person__person_get_size_first_name_02_empty_string);
+        RUN_TEST(test_person__person_get_size_first_name_03_normal_case);
+        printf("\nNow testing person_get_size_last_name():\n\n");
+        RUN_TEST(test_person__person_get_size_last_name_01_zero_if_person_null);
+        RUN_TEST(test_person__person_get_size_last_name_02_empty_string);
+        RUN_TEST(test_person__person_get_size_last_name_03_normal_case);
+        printf("\nNow testing person_get_size_id():\n\n");
+        RUN_TEST(test_person__person_get_size_id_01_zero_if_person_null);
+        RUN_TEST(test_person__person_get_size_id_02_empty_string);
+        RUN_TEST(test_person__person_get_size_id_03_normal_case);
+#endif //TEST_PERSON_H
  
         return UNITY_END();
 }
