@@ -35,7 +35,7 @@ termfly is a hobby/practice project, that aims to be a commandline operated clie
     - [x] implement date_destroy()
     - [x] implement date_copy()
     - [x] implement date_validate()
-    - [ ] implement date_compare()
+    - [x] implement date_compare()
     - [x] implement date_get_day()
     - [x] implement date_get_month()
     - [x] implement date_get_year()
@@ -99,11 +99,11 @@ termfly is a hobby/practice project, that aims to be a commandline operated clie
     - [x] test person_get_first_name()
     - [x] test person_get_last_name()
     - [x] test person_get_id()
-    - [ ] test person_get_birthday()
+    - [x] test person_get_birthday()
     - [x] test person_set_first_name()
     - [x] test person_set_last_name()
     - [x] test person_set_id()
-    - [ ] test person_set_birthday()
+    - [x] test person_set_birthday()
 
 #### forum-content functionality
 

@@ -468,6 +468,63 @@ void test_person__person_create_06_birthday_year_zero(void) {
         person_destroy(&p);
 }
 
+// person_get_size_first_name()
+void test_person__person_get_size_first_name_01_zero_if_person_null(void) {
+        Person p = NULL;
+        TEST_ASSERT_EQUAL_INT(0, person_get_size_first_name(p));
+}
+
+void test_person__person_get_size_first_name_02_empty_string(void) {
+        Person p = person_create();
+        TEST_ASSERT_EQUAL_INT(1, person_get_size_first_name(p));
+        person_destroy(&p);
+}
+
+void test_person__person_get_size_first_name_03_normal_case(void) {
+        Person p = person_create();
+        person_set_first_name("John", p);
+        TEST_ASSERT_EQUAL_INT(5, person_get_size_first_name(p));
+        person_destroy(&p);
+}
+
+// person_get_size_last_name()
+void test_person__person_get_size_last_name_01_zero_if_person_null(void) {
+        Person p = NULL;
+        TEST_ASSERT_EQUAL_INT(0, person_get_size_last_name(p));
+}
+
+void test_person__person_get_size_last_name_02_empty_string(void) {
+        Person p = person_create();
+        TEST_ASSERT_EQUAL_INT(1, person_get_size_last_name(p));
+        person_destroy(&p);
+}
+
+void test_person__person_get_size_last_name_03_normal_case(void) {
+        Person p = person_create();
+        person_set_last_name("Doe", p);
+        TEST_ASSERT_EQUAL_INT(4, person_get_size_last_name(p));
+        person_destroy(&p);
+}
+
+// person_get_size_id()
+void test_person__person_get_size_id_01_zero_if_person_null(void) {
+        Person p = NULL;
+        TEST_ASSERT_EQUAL_INT(0, person_get_size_id(p));
+}
+
+void test_person__person_get_size_id_02_empty_string(void) {
+        Person p = person_create();
+        TEST_ASSERT_EQUAL_INT(1, person_get_size_id(p));
+        person_destroy(&p);
+}
+
+void test_person__person_get_size_id_03_normal_case(void) {
+        Person p = person_create();
+        person_set_id("jd", p);
+        TEST_ASSERT_EQUAL_INT(3, person_get_size_id(p));
+        person_destroy(&p);
+}
+
 // person_set_first_name() and person_get_first_name()
 void test_person__person_set_first_name__person_get_first_name_01_set_returns_false_if_string_null(void) {
         Person p = person_create();
@@ -573,60 +630,91 @@ void test_person__person_set_id__person_get_id_04_normal_case(void) {
         person_destroy(&p);
 }
 
-// person_get_size_first_name()
-void test_person__person_get_size_first_name_01_zero_if_person_null(void) {
+// person_set_birthday() and person_get_birthday()
+void test_person__person_set_birthday__person_get_birthday_01_set_returns_false_if_date_null(void) {
+        Person p = person_create();
+        Date d = NULL;
+        TEST_ASSERT_FALSE(person_set_birthday(d, p));
+        person_destroy(&p);
+}
+
+void test_person__person_set_birthday__person_get_birthday_02_set_returns_false_if_person_null(void) {
         Person p = NULL;
-        TEST_ASSERT_EQUAL_INT(0, person_get_size_first_name(p));
-}
-
-void test_person__person_get_size_first_name_02_empty_string(void) {
-        Person p = person_create();
-        TEST_ASSERT_EQUAL_INT(1, person_get_size_first_name(p));
+        Date d = date_create();
+        TEST_ASSERT_FALSE(person_set_birthday(d, p));
+        date_destroy(&d);
         person_destroy(&p);
 }
 
-void test_person__person_get_size_first_name_03_normal_case(void) {
+void test_person__person_set_birthday__person_get_birthday_03_day(void) {
         Person p = person_create();
-        person_set_first_name("John", p);
-        TEST_ASSERT_EQUAL_INT(5, person_get_size_first_name(p));
+        Date d1 = date_create();
+        date_set_day(1, d1);
+        date_set_month(1, d1);
+        date_set_year(1, d1);
+        person_set_birthday(d1, p);
+        Date d2 = date_create();
+        person_get_birthday(d2, p);
+        day_t day_1;
+        day_t day_2;
+        date_get_day(&day_1, d1);
+        date_get_day(&day_2, d2);
+        TEST_ASSERT_EQUAL_INT(day_1, day_2);
+        date_destroy(&d2);
+        date_destroy(&d1);
         person_destroy(&p);
 }
 
-// person_get_size_last_name()
-void test_person__person_get_size_last_name_01_zero_if_person_null(void) {
-        Person p = NULL;
-        TEST_ASSERT_EQUAL_INT(0, person_get_size_last_name(p));
-}
-
-void test_person__person_get_size_last_name_02_empty_string(void) {
+void test_person__person_set_birthday__person_get_birthday_04_month(void) {
         Person p = person_create();
-        TEST_ASSERT_EQUAL_INT(1, person_get_size_last_name(p));
+        Date d1 = date_create();
+        date_set_day(1, d1);
+        date_set_month(1, d1);
+        date_set_year(1, d1);
+        person_set_birthday(d1, p);
+        Date d2 = date_create();
+        person_get_birthday(d2, p);
+        month_t month_1;
+        month_t month_2;
+        date_get_month(&month_1, d1);
+        date_get_month(&month_2, d2);
+        TEST_ASSERT_EQUAL_INT(month_1, month_2);
+        date_destroy(&d2);
+        date_destroy(&d1);
         person_destroy(&p);
 }
 
-void test_person__person_get_size_last_name_03_normal_case(void) {
+void test_person__person_set_birthday__person_get_birthday_05_year(void) {
         Person p = person_create();
-        person_set_last_name("Doe", p);
-        TEST_ASSERT_EQUAL_INT(4, person_get_size_last_name(p));
+        Date d1 = date_create();
+        date_set_day(1, d1);
+        date_set_month(1, d1);
+        date_set_year(1, d1);
+        person_set_birthday(d1, p);
+        Date d2 = date_create();
+        person_get_birthday(d2, p);
+        year_t year_1;
+        year_t year_2;
+        date_get_year(&year_1, d1);
+        date_get_year(&year_2, d2);
+        TEST_ASSERT_EQUAL_INT(year_1, year_2);
+        date_destroy(&d2);
+        date_destroy(&d1);
         person_destroy(&p);
 }
 
-// person_get_size_id()
-void test_person__person_get_size_id_01_zero_if_person_null(void) {
-        Person p = NULL;
-        TEST_ASSERT_EQUAL_INT(0, person_get_size_id(p));
-}
-
-void test_person__person_get_size_id_02_empty_string(void) {
+void test_person__person_set_birthday__person_get_birthday_06_date_compare_is_zero(void) {
         Person p = person_create();
-        TEST_ASSERT_EQUAL_INT(1, person_get_size_id(p));
-        person_destroy(&p);
-}
-
-void test_person__person_get_size_id_03_normal_case(void) {
-        Person p = person_create();
-        person_set_id("jd", p);
-        TEST_ASSERT_EQUAL_INT(3, person_get_size_id(p));
+        Date d1 = date_create();
+        date_set_day(1, d1);
+        date_set_month(1, d1);
+        date_set_year(1, d1);
+        person_set_birthday(d1, p);
+        Date d2 = date_create();
+        person_get_birthday(d2, p);
+        TEST_ASSERT_EQUAL_INT(0, date_compare(d1, d2));
+        date_destroy(&d2);
+        date_destroy(&d1);
         person_destroy(&p);
 }
 
@@ -724,6 +812,18 @@ int main(void) {
         RUN_TEST(test_person__person_create_04_birthday_day_zero);
         RUN_TEST(test_person__person_create_05_birthday_month_zero);
         RUN_TEST(test_person__person_create_06_birthday_year_zero);
+        printf("\nNow testing person_get_size_first_name():\n\n");
+        RUN_TEST(test_person__person_get_size_first_name_01_zero_if_person_null);
+        RUN_TEST(test_person__person_get_size_first_name_02_empty_string);
+        RUN_TEST(test_person__person_get_size_first_name_03_normal_case);
+        printf("\nNow testing person_get_size_last_name():\n\n");
+        RUN_TEST(test_person__person_get_size_last_name_01_zero_if_person_null);
+        RUN_TEST(test_person__person_get_size_last_name_02_empty_string);
+        RUN_TEST(test_person__person_get_size_last_name_03_normal_case);
+        printf("\nNow testing person_get_size_id():\n\n");
+        RUN_TEST(test_person__person_get_size_id_01_zero_if_person_null);
+        RUN_TEST(test_person__person_get_size_id_02_empty_string);
+        RUN_TEST(test_person__person_get_size_id_03_normal_case);
         printf("\nNow testing person_set_first_name() and person_get_first_name():\n\n");
         RUN_TEST(test_person__person_set_first_name__person_get_first_name_01_set_returns_false_if_string_null);
         RUN_TEST(test_person__person_set_first_name__person_get_first_name_02_set_returns_false_if_person_null);
@@ -739,18 +839,13 @@ int main(void) {
         RUN_TEST(test_person__person_set_id__person_get_id_02_set_returns_false_if_person_null);
         RUN_TEST(test_person__person_set_id__person_get_id_03_empty_string);
         RUN_TEST(test_person__person_set_id__person_get_id_04_normal_case);
-        printf("\nNow testing person_get_size_first_name():\n\n");
-        RUN_TEST(test_person__person_get_size_first_name_01_zero_if_person_null);
-        RUN_TEST(test_person__person_get_size_first_name_02_empty_string);
-        RUN_TEST(test_person__person_get_size_first_name_03_normal_case);
-        printf("\nNow testing person_get_size_last_name():\n\n");
-        RUN_TEST(test_person__person_get_size_last_name_01_zero_if_person_null);
-        RUN_TEST(test_person__person_get_size_last_name_02_empty_string);
-        RUN_TEST(test_person__person_get_size_last_name_03_normal_case);
-        printf("\nNow testing person_get_size_id():\n\n");
-        RUN_TEST(test_person__person_get_size_id_01_zero_if_person_null);
-        RUN_TEST(test_person__person_get_size_id_02_empty_string);
-        RUN_TEST(test_person__person_get_size_id_03_normal_case);
+        printf("\nNow testing person_set_birthday() and person_get_birthday():\n\n");
+        RUN_TEST(test_person__person_set_birthday__person_get_birthday_01_set_returns_false_if_date_null);
+        RUN_TEST(test_person__person_set_birthday__person_get_birthday_02_set_returns_false_if_person_null);
+        RUN_TEST(test_person__person_set_birthday__person_get_birthday_03_day);
+        RUN_TEST(test_person__person_set_birthday__person_get_birthday_04_month);
+        RUN_TEST(test_person__person_set_birthday__person_get_birthday_05_year);
+        RUN_TEST(test_person__person_set_birthday__person_get_birthday_06_date_compare_is_zero);
 #endif //TEST_PERSON_H
  
         return UNITY_END();
